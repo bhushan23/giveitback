@@ -1,5 +1,32 @@
 <ion-view style="" title="Share Give Backs">
-    <ion-content class="has-header" padding="true">
+<ion-content class="has-header" padding="true">
+
+
+<div class="list card">
+      <label style="" class="item item-input">
+
+          <textarea placeholder="say something about your give back" ng-model="post.message" type="text"> </textarea>
+      </label>
+<div class="button-bar bar-stable">
+  <a class="button" ng-click="uploadFromGallary()">Gallary</a>
+  <a class="button" ng-click="capture()">Capture</a>
+  <a class="button" ng-click="getLocation()" >Location</a>
+</div>
+<!--
+  <div class="item item-image">
+    <img src="img/Folder.jpg">
+  </div>
+-->
+  <button class="item item-icon-left assertive" ng-click="post()">
+    <i class="icon ion-music-note"></i>
+    Share
+  </button>
+  
+
+</div>
+
+
+<!--
         <form style="" class="list">
             <ion-list style="">
                 <label style="" class="item item-input">
@@ -12,5 +39,7 @@
             Suggest Me!
         </button>
         </form>
+-->
     </ion-content>
+
 </ion-view>

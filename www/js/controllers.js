@@ -19,6 +19,19 @@ var init = function() {
    
 .controller('shareGiveBacksCtrl', function($scope,$state, $rootScope, $ionicLoading) {
 
+$scope.capture = function() {
+  navigator.camera.getPicture(function(imageURI) {
+
+    // imageURI is the URL of the image that we can use for
+    // an <img> element or backgroundImage.
+
+  }, function(err) {
+
+    // Ruh-roh, something bad happened
+
+  }, cameraOptions);
+};
+
 $scope.post = function() {
 
             $scope.loading = $ionicLoading.show({
@@ -29,9 +42,9 @@ $scope.post = function() {
             showDelay: 0
         });
 
-        var post = new Parse.Post();
+        var post = new Parse.Object("Post");
         post.set("message",$scope.post.message);
-        post.set("user",$rootScope.user);
+        //post.set("user",$rootScope.user);
         post.save(null, {
 			  success: function(post) {
 			    // Execute any logic that should take place after the object is saved.
@@ -47,6 +60,25 @@ $scope.post = function() {
 			});
 
     	};
+
+$scope.uploadFromGallary = function() {
+    var options = {
+   maximumImagesCount: 10,
+   width: 800,
+   height: 800,
+   quality: 80
+  };
+
+  $cordovaImagePicker.getPictures(options)
+    .then(function (results) {
+      for (var i = 0; i < results.length; i++) {
+        console.log('Image URI: ' + results[i]);
+      }
+    }, function(error) {
+      // error getting photos
+    });
+};
+
 })
       
 .controller('notificationsCtrl', function($scope) {
