@@ -1,0 +1,22 @@
+<ion-view style="" title="Login">
+    <ion-content class="has-header" padding="true">
+        <form style="" class="list">
+            <ion-list style="">
+                <label style="" class="item item-input">
+                    <span class="input-label">Username</span>
+                    <input placeholder="" ng-model="user.username" type="text">
+                </label>
+                <label style="" class="item item-input">
+                    <span class="input-label">Password</span>
+                    <input placeholder="********" ng-model="user.password" type="password">
+                </label>
+            </ion-list>
+          <div class="assertive" ng-show="error.message">{{error.message}}</div>
+            <button style="" class="button button-stable button-block" ng-click="login()">Log in</button>
+             <button class="button button-block button-clear button-calm" ng-click="forgot()">
+            Forgot your password?
+        </button>
+            <a style="" class="button button-positive button-clear button-block" href="#/user-signup">Or create an account</a>
+        </form>
+    </ion-content>
+</ion-view>
