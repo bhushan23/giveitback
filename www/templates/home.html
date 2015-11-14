@@ -1,21 +1,50 @@
 <ion-view style="" title="Home">
     <ion-content class="has-header" padding="true">
-        <ion-list style="">
-            <ion-item style="" class="item-thumbnail-left">
-                <img src="/img/avatar-img.png">
-                <h2>Title</h2>
-                <p>Item</p>
-            </ion-item>
-            <ion-item style="" class="item-thumbnail-left">
-                <img src="/img/avatar-img.png">
-                <h2>Title</h2>
-                <p>Item</p>
-            </ion-item>
-            <ion-item style="" class="item-thumbnail-left">
-                <img src="/img/avatar-img.png">
-                <h2>Title</h2>
-                <p>Item</p>
-            </ion-item>
-        </ion-list>
+      
+      <ion-list>
+
+        <ion-item ng-repeat="post in posts" 
+                  item="post">
+           <div class="list card">
+
+                  <div class="item item-avatar">
+                    <img src="mcfly.jpg">
+                    <h2>Marty McFly</h2>
+                    <p>November 05, 1955</p>
+                  </div>
+
+                  <div class="item item-body">
+                    <img class="full-image" src="delorean.jpg">
+                    <p>
+                     {{post.message}}
+                    </p>
+                    <p>
+                      <a href="#" class="subdued">1 Like</a>
+                      <a href="#" class="subdued">5 Comments</a>
+                    </p>
+                  </div>
+
+                  <div class="item tabs tabs-secondary tabs-icon-left">
+                    <a class="tab-item" href="#">
+                      <i class="icon ion-thumbsup"></i>
+                      Like
+                    </a>
+                    <a class="tab-item" href="#">
+                      <i class="icon ion-chatbox"></i>
+                      Comment
+                    </a>
+                    <a class="tab-item" href="#">
+                      <i class="icon ion-share"></i>
+                      Share
+                    </a>
+                  </div>
+
+            </div>
+        </ion-item>
+
+      </ion-list>
+
+      <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
+      
     </ion-content>
 </ion-view>

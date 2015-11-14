@@ -15,10 +15,45 @@ var init = function() {
    
 .controller('homeCtrl', function($scope) {
 
+    var post = Parse.Object.extend("Post");
+    var query = new Parse.Query(post);
+    var lastPost;
+    query.limit(2);
+  $scope.noMoreItemsAvailable = false;
+  query.descending("createdAt");
+  $scope.loadMore = function() {
+   if ($scope.posts.length > 0) {
+        query.lessThan("createdAt",lastPost.get("createdAt"));
+   }
+   query.find({
+      success: function(results) {
+        //alert("Successfully retrieved " + results.length + " scores.");
+        // Do something with the returned Parse.Object values
+        for (var i = 0; i < results.length; i++) {
+          var object = results[i];
+          //alert(results[i].);
+          $scope.posts.push({ message: object.get("message")});
+        }
+        lastPost = results[results.length-1];
+      },
+      error: function(error) {
+        alert("Error: " + error.code + " " + error.message);
+      }
+    });
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  };
+  
+  $scope.posts = [];
+
+  $scope.$on('$stateChangeSuccess', function() {
+    $scope.loadMore();
+  });
+   $scope.loadMore();
+    
 })
    
 .controller('shareGiveBacksCtrl', function($scope,$state, $rootScope, $ionicLoading) {
-
+/*
 $scope.capture = function() {
   navigator.camera.getPicture(function(imageURI) {
 
@@ -31,7 +66,7 @@ $scope.capture = function() {
 
   }, cameraOptions);
 };
-
+*/
 $scope.post = function() {
 
             $scope.loading = $ionicLoading.show({
@@ -73,6 +108,21 @@ $scope.uploadFromGallary = function() {
     .then(function (results) {
       for (var i = 0; i < results.length; i++) {
         console.log('Image URI: ' + results[i]);
+
+        /* var parseFile = new Parse.File("imagename", results[i]);
+
+         parseFile.save().then(function() {
+
+         var attach = new Parse.Object("Attachments");
+         .set("applicantName", "Joe Smith");
+         jobApplication.set("applicantResumeFile", parseFile);
+         jobApplication.save();
+
+        }, function(error) {
+
+          //error handling
+
+        });*/
       }
     }, function(error) {
       // error getting photos
@@ -116,6 +166,8 @@ $scope.uploadFromGallary = function() {
                 $ionicLoading.hide();
                 $rootScope.user = user;
                 $rootScope.isLoggedIn = true;
+                
+      
                 $state.go('tab.map', {
                     clear: true
                 });
@@ -202,9 +254,13 @@ $scope.uploadFromGallary = function() {
         $state.go('signup');
     };
         
-    if ($rootScope.isLoggedIn) {
+    var currentUser = Parse.User.current();
+    //alert(currentUser.get("username"));
+    if (currentUser) {
+        // do stuff with the user
         $state.go('tab.home');
-    }else {
-    	 $state.go('tab.map'); //TODO login
+    } else {
+        // show the signup or login page
+        $state.go('login');
     }
 })
